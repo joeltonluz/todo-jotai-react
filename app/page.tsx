@@ -3,85 +3,63 @@
 import React from 'react';
 import { useAtomValue } from 'jotai';
 import { filteredTodosAtom } from '@/atoms/todoAtoms';
-import TodoStats from '@/components/todo-stats';
 import TodoFilters from '@/components/todo-filters';
 import TodoForm from '@/components/todo-form';
 import TodoItem from '@/components/todo-item';
 import EditTodoModal from '@/components/edit-todo-modal';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeToggle from '@/components/theme-toggle';
-import { CheckSquare, Sparkles, PlusCircle } from 'lucide-react';
+import { CheckSquare, PlusCircle } from 'lucide-react';
 
 export default function Home() {
   const filteredTodos = useAtomValue(filteredTodosAtom);
 
   return (
     <div className="flex-1 w-full min-h-screen bg-zinc-50/40 py-12 px-4 dark:bg-zinc-950 font-sans transition-colors duration-300">
-      <main className="mx-auto max-w-4xl space-y-8">
+      <main className="mx-auto max-w-2xl space-y-6">
         {/* Header Section */}
-        <header className="flex flex-col gap-4 text-center sm:text-left sm:flex-row sm:items-center sm:justify-between border-b pb-6 dark:border-zinc-800">
-          <div className="space-y-1">
-            <div className="flex items-center justify-center sm:justify-start gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm shadow-blue-500/20">
-                <CheckSquare className="h-5 w-5" />
-              </div>
-              <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                Jotai TaskFlow
-              </h1>
+        <header className="flex items-center justify-between border-b pb-4 dark:border-zinc-800">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">
+              <CheckSquare className="h-4.5 w-4.5" />
             </div>
-            <p className="text-sm text-muted-foreground">
-              A premium, reactive Todo Planner with Jotai state management.
-            </p>
+            <h1 className="text-xl font-bold tracking-tight text-foreground">
+              Todo List
+            </h1>
           </div>
-
-          <div className="flex items-center justify-center gap-3 self-center sm:self-auto">
-            <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>Senior Codebase Setup</span>
-            </div>
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
         </header>
 
-        {/* Dashboard Metrics */}
-        <section aria-label="Task metrics dashboard">
-          <TodoStats />
+        {/* Input Form */}
+        <section aria-label="Add new task">
+          <TodoForm />
         </section>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {/* Side Panel: Create Task */}
-          <section aria-label="Create task form" className="md:col-span-1">
-            <TodoForm />
-          </section>
+        {/* Filters and Checklist */}
+        <section aria-label="Tasks checklist" className="space-y-4">
+          <TodoFilters />
 
-          {/* Main Panel: Filter & List */}
-          <section aria-label="Task list controls" className="md:col-span-2 space-y-6">
-            {/* Filters Row */}
-            <TodoFilters />
-
-            {/* Todo List Rendering */}
-            <div className="space-y-3">
-              {filteredTodos.length > 0 ? (
-                filteredTodos.map((todo) => (
-                  <TodoItem key={todo.id} todo={todo} />
-                ))
-              ) : (
-                <div className="flex flex-col items-center justify-center text-center p-12 border border-dashed rounded-2xl bg-card dark:border-zinc-800">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted/60 text-muted-foreground mb-4">
-                    <PlusCircle className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1">No tasks match the filters</h3>
-                  <p className="text-xs text-muted-foreground max-w-xs">
-                    Try clearing your search query, choosing a different status filter, or create a brand new task.
-                  </p>
+          <div className="space-y-2.5">
+            {filteredTodos.length > 0 ? (
+              filteredTodos.map((todo) => (
+                <TodoItem key={todo.id} todo={todo} />
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center text-center p-8 border border-dashed rounded-xl bg-card dark:border-zinc-800">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/50 text-muted-foreground mb-3">
+                  <PlusCircle className="h-5 w-5" />
                 </div>
-              )}
-            </div>
-          </section>
-        </div>
+                <h3 className="text-xs font-semibold text-foreground mb-1">No tasks found</h3>
+                <p className="text-[11px] text-muted-foreground max-w-xs">
+                  Your checklist is clear. Add a new task above or change the filters.
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
       </main>
 
-      {/* Popovers, Dialogs & Toast Notifications */}
+      {/* Dialogs and Toasts */}
       <EditTodoModal />
       <Toaster position="bottom-right" richColors closeButton />
     </div>
