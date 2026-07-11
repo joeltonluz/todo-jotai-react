@@ -9,6 +9,7 @@ import TodoForm from '@/components/todo-form';
 import TodoItem from '@/components/todo-item';
 import EditTodoModal from '@/components/edit-todo-modal';
 import { Toaster } from '@/components/ui/sonner';
+import ThemeToggle from '@/components/theme-toggle';
 import { CheckSquare, Sparkles, PlusCircle } from 'lucide-react';
 
 export default function Home() {
@@ -18,7 +19,7 @@ export default function Home() {
     <div className="flex-1 w-full min-h-screen bg-zinc-50/40 py-12 px-4 dark:bg-zinc-950 font-sans transition-colors duration-300">
       <main className="mx-auto max-w-4xl space-y-8">
         {/* Header Section */}
-        <header className="flex flex-col gap-2 text-center sm:text-left sm:flex-row sm:items-center sm:justify-between border-b pb-6 dark:border-zinc-800">
+        <header className="flex flex-col gap-4 text-center sm:text-left sm:flex-row sm:items-center sm:justify-between border-b pb-6 dark:border-zinc-800">
           <div className="space-y-1">
             <div className="flex items-center justify-center sm:justify-start gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm shadow-blue-500/20">
@@ -33,9 +34,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-1.5 self-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Senior Codebase Setup</span>
+          <div className="flex items-center justify-center gap-3 self-center sm:self-auto">
+            <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Senior Codebase Setup</span>
+            </div>
+            <ThemeToggle />
           </div>
         </header>
 

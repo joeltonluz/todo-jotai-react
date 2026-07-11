@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { Priority, Category, TodoFilter, TodoSortBy } from '@/types/todo';
 
 export default function TodoFilters() {
