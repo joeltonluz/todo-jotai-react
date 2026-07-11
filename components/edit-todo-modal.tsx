@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import {
   todosAtom,
   editTodoIdAtom,
@@ -163,7 +163,7 @@ function EditTodoForm({ onClose, onSave }: EditTodoFormProps) {
 }
 
 export default function EditTodoModal() {
-  const [todos, setTodos] = useAtom(todosAtom);
+  const setTodos = useSetAtom(todosAtom);
   const [editTodoId, setEditTodoId] = useAtom(editTodoIdAtom);
 
   const handleClose = () => {
