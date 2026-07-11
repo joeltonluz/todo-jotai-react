@@ -1,8 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useSetAtom } from 'jotai';
-import { todosAtom } from '@/atoms/todoAtoms';
+import React from 'react';
+import { useAtom, useSetAtom } from 'jotai';
+import {
+  todosAtom,
+  addTitleAtom,
+  addPriorityAtom,
+  addCategoryAtom,
+  addDueDateAtom,
+} from '@/atoms/todoAtoms';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -17,10 +23,10 @@ import { Priority, Category, Todo } from '@/types/todo';
 
 export default function TodoForm() {
   const setTodos = useSetAtom(todosAtom);
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState<Priority>('medium');
-  const [category, setCategory] = useState<Category>('work');
-  const [dueDate, setDueDate] = useState('');
+  const [title, setTitle] = useAtom(addTitleAtom);
+  const [priority, setPriority] = useAtom(addPriorityAtom);
+  const [category, setCategory] = useAtom(addCategoryAtom);
+  const [dueDate, setDueDate] = useAtom(addDueDateAtom);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +48,7 @@ export default function TodoForm() {
 
     setTodos((prev) => [newTodo, ...prev]);
 
-    // Reset Form
+    // Reset Form Atoms
     setTitle('');
     setPriority('medium');
     setCategory('work');

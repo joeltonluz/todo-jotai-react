@@ -1,8 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
-import { todosAtom, editTodoIdAtom } from '@/atoms/todoAtoms';
+import React from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import {
+  todosAtom,
+  editTodoIdAtom,
+  editTitleAtom,
+  editDescriptionAtom,
+  editPriorityAtom,
+  editCategoryAtom,
+  editDueDateAtom,
+} from '@/atoms/todoAtoms';
 import {
   Dialog,
   DialogContent,
@@ -24,17 +32,16 @@ import { Edit3, Calendar, Tag, AlertCircle } from 'lucide-react';
 import { Priority, Category, Todo } from '@/types/todo';
 
 interface EditTodoFormProps {
-  todo: Todo;
   onClose: () => void;
   onSave: (updatedFields: Partial<Todo>) => void;
 }
 
-function EditTodoForm({ todo, onClose, onSave }: EditTodoFormProps) {
-  const [title, setTitle] = useState(todo.title);
-  const [description, setDescription] = useState(todo.description || '');
-  const [priority, setPriority] = useState<Priority>(todo.priority);
-  const [category, setCategory] = useState<Category>(todo.category);
-  const [dueDate, setDueDate] = useState(todo.dueDate || '');
+function EditTodoForm({ onClose, onSave }: EditTodoFormProps) {
+  const [title, setTitle] = useAtom(editTitleAtom);
+  const [description, setDescription] = useAtom(editDescriptionAtom);
+  const [priority, setPriority] = useAtom(editPriorityAtom);
+  const [category, setCategory] = useAtom(editCategoryAtom);
+  const [dueDate, setDueDate] = useAtom(editDueDateAtom);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,8 +166,6 @@ export default function EditTodoModal() {
   const [todos, setTodos] = useAtom(todosAtom);
   const [editTodoId, setEditTodoId] = useAtom(editTodoIdAtom);
 
-  const currentTodo = todos.find((t) => t.id === editTodoId);
-
   const handleClose = () => {
     setEditTodoId(null);
   };
@@ -187,10 +192,8 @@ export default function EditTodoModal() {
           </div>
         </DialogHeader>
 
-        {currentTodo && (
+        {isOpen && (
           <EditTodoForm
-            key={currentTodo.id}
-            todo={currentTodo}
             onClose={handleClose}
             onSave={handleSave}
           />
