@@ -13,8 +13,43 @@ export const categoryFilterAtom = atom<Category | 'all'>('all');
 export const searchQueryAtom = atom<string>('');
 export const sortByAtom = atom<TodoSortBy>('createdAt-desc');
 
-// 3. UI Atoms
-export const editTodoIdAtom = atom<string | null>(null);
+// 3. Form State Atoms (Temporary states for creation and editing)
+export const addTitleAtom = atom('');
+export const addPriorityAtom = atom<Priority>('medium');
+export const addCategoryAtom = atom<Category>('work');
+export const addDueDateAtom = atom('');
+
+export const editTitleAtom = atom('');
+export const editDescriptionAtom = atom('');
+export const editPriorityAtom = atom<Priority>('medium');
+export const editCategoryAtom = atom<Category>('work');
+export const editDueDateAtom = atom('');
+
+const baseEditTodoIdAtom = atom<string | null>(null);
+
+export const editTodoIdAtom = atom(
+  (get) => get(baseEditTodoIdAtom),
+  (get, set, nextValue: string | null) => {
+    set(baseEditTodoIdAtom, nextValue);
+    if (nextValue) {
+      const todos = get(todosAtom);
+      const todo = todos.find((t) => t.id === nextValue);
+      if (todo) {
+        set(editTitleAtom, todo.title);
+        set(editDescriptionAtom, todo.description || '');
+        set(editPriorityAtom, todo.priority);
+        set(editCategoryAtom, todo.category);
+        set(editDueDateAtom, todo.dueDate || '');
+      }
+    } else {
+      set(editTitleAtom, '');
+      set(editDescriptionAtom, '');
+      set(editPriorityAtom, 'medium');
+      set(editCategoryAtom, 'work');
+      set(editDueDateAtom, '');
+    }
+  }
+);
 
 // 4. Derived Atoms (Selectors)
 
